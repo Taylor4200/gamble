@@ -1,4 +1,4 @@
-// src/pages/CasinoPage.js
+// src/pages/CasinoPage.jsx
 import React from 'react';
 
 const CasinoPage = () => {

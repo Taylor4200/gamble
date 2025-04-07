@@ -3,10 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import Auth from '../components/Auth';
-import SlotsPage from '../pages/SlotsPage';
-import CasinoPage from '../pages/CasinoPage';
-import SportsPage from '../pages/SportsPage';
-import AdminPage from '../pages/AdminPage';
+import SlotsPage from './SlotsPage';
+import CasinoPage from './CasinoPage';
+import SportsPage from './SportsPage';
+import AdminPage from './AdminPage';
 
 const HomePage = () => {
   // All your existing state declarations
@@ -216,61 +216,61 @@ const HomePage = () => {
 
         {/* Main Layout */}
         <div className={`flex min-h-screen bg-gray-900 ${showAuth ? 'blur-sm' : ''}`}>
-          {/* Left Sidebar */}
-          <div className="w-64 bg-gray-800 p-4">
-            <div className="flex justify-between items-center mb-8">
-              <h1 className="text-2xl font-bold text-white">GambleMaster</h1>
-              {isLoggedIn && (
-                  <div className="flex flex-col items-end">
-                    <button
-                        onClick={handleLogout}
-                        className="text-sm text-gray-400 hover:text-white"
-                    >
-                      Logout
-                    </button>
-                    {isAdmin && (
-                        <span className="text-xs text-blue-400">Admin Mode</span>
-                    )}
-                  </div>
-              )}
-            </div>
-            <nav>
-              <ul className="space-y-2">
-                <li
-                    className={`text-gray-300 hover:text-white cursor-pointer ${currentPage === 'home' ? 'font-bold' : ''}`}
-                    onClick={() => setCurrentPage('home')}
-                >
-                  🏠 Home
-                </li>
-                <li
-                    className={`text-gray-300 hover:text-white cursor-pointer ${currentPage === 'slots' ? 'font-bold' : ''}`}
-                    onClick={() => setCurrentPage('slots')}
-                >
-                  🎰 Slots
-                </li>
-                <li
-                    className={`text-gray-300 hover:text-white cursor-pointer ${currentPage === 'casino' ? 'font-bold' : ''}`}
-                    onClick={() => setCurrentPage('casino')}
-                >
-                  🎲 Casino
-                </li>
-                <li
-                    className={`text-gray-300 hover:text-white cursor-pointer ${currentPage === 'sports' ? 'font-bold' : ''}`}
-                    onClick={() => setCurrentPage('sports')}
-                >
-                  ⚽ Sports
-                </li>
-                {isAdmin && (
-                    <li
-                        className={`text-gray-300 hover:text-white cursor-pointer ${currentPage === 'admin' ? 'font-bold' : ''} mt-8 text-blue-400`}
-                        onClick={() => setCurrentPage('admin')}
-                    >
-                      ⚙️ Admin Panel
-                    </li>
-                )}
-              </ul>
-            </nav>
-          </div>
+          {/*/!* Left Sidebar *!/*/}
+          {/*<div className="w-64 bg-gray-800 p-4">*/}
+          {/*  <div className="flex justify-between items-center mb-8">*/}
+          {/*    <h1 className="text-2xl font-bold text-white">GambleMaster</h1>*/}
+          {/*    {isLoggedIn && (*/}
+          {/*        <div className="flex flex-col items-end">*/}
+          {/*          <button*/}
+          {/*              onClick={handleLogout}*/}
+          {/*              className="text-sm text-gray-400 hover:text-white"*/}
+          {/*          >*/}
+          {/*            Logout*/}
+          {/*          </button>*/}
+          {/*          {isAdmin && (*/}
+          {/*              <span className="text-xs text-blue-400">Admin Mode</span>*/}
+          {/*          )}*/}
+          {/*        </div>*/}
+          {/*    )}*/}
+          {/*  </div>*/}
+          {/*  <nav>*/}
+          {/*    <ul className="space-y-2">*/}
+          {/*      <li*/}
+          {/*          className={`text-gray-300 hover:text-white cursor-pointer ${currentPage === 'home' ? 'font-bold' : ''}`}*/}
+          {/*          onClick={() => setCurrentPage('home')}*/}
+          {/*      >*/}
+          {/*        🏠 Home*/}
+          {/*      </li>*/}
+          {/*      <li*/}
+          {/*          className={`text-gray-300 hover:text-white cursor-pointer ${currentPage === 'slots' ? 'font-bold' : ''}`}*/}
+          {/*          onClick={() => setCurrentPage('slots')}*/}
+          {/*      >*/}
+          {/*        🎰 Slots*/}
+          {/*      </li>*/}
+          {/*      <li*/}
+          {/*          className={`text-gray-300 hover:text-white cursor-pointer ${currentPage === 'casino' ? 'font-bold' : ''}`}*/}
+          {/*          onClick={() => setCurrentPage('casino')}*/}
+          {/*      >*/}
+          {/*        🎲 Casino*/}
+          {/*      </li>*/}
+          {/*      <li*/}
+          {/*          className={`text-gray-300 hover:text-white cursor-pointer ${currentPage === 'sports' ? 'font-bold' : ''}`}*/}
+          {/*          onClick={() => setCurrentPage('sports')}*/}
+          {/*      >*/}
+          {/*        ⚽ Sports*/}
+          {/*      </li>*/}
+          {/*      {isAdmin && (*/}
+          {/*          <li*/}
+          {/*              className={`text-gray-300 hover:text-white cursor-pointer ${currentPage === 'admin' ? 'font-bold' : ''} mt-8 text-blue-400`}*/}
+          {/*              onClick={() => setCurrentPage('admin')}*/}
+          {/*          >*/}
+          {/*            ⚙️ Admin Panel*/}
+          {/*          </li>*/}
+          {/*      )}*/}
+          {/*    </ul>*/}
+          {/*  </nav>*/}
+          {/*</div>*/}
 
           {/* Main Content */}
           <div className="flex-1 p-8">

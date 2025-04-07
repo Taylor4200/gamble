@@ -17,5 +17,8 @@ export const GAME_PROVIDERS = [
     'IGT',
     'Play n GO',
     'Yggdrasil',
-    'Hacksaw Gaming'
+    'Hacksaw Gaming',
+    'Originals',
+    'Bullshark Gaming',
+    'Backseat Gaming'
 ];

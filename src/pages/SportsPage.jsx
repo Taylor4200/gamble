@@ -1,4 +1,4 @@
-// src/pages/SportsPage.js
+// src/pages/SportsPage.jsx
 import React from 'react';
 
 const SportsPage = () => {
