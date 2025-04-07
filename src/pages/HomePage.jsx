@@ -319,51 +319,45 @@ const HomePage = () => {
             <h2 className="text-xl font-bold text-white mb-4">Live Chat</h2>
             <div className="bg-gray-700 rounded p-4 h-[calc(100vh-8rem)] flex flex-col">
               <div className="flex-1 overflow-y-auto space-y-4">
-                {messages.map((message) => (
+                {isLoggedIn ? (
+                  messages.map((message) => (
                     <div
-                        key={message.id}
-                        className={`flex flex-col ${message.user === username ? 'items-end' : 'items-start'}`}
+                      key={message.id}
+                      className={`flex flex-col ${message.user === username ? 'items-end' : 'items-start'}`}
                     >
                       <div
-                          className={`rounded-lg px-3 py-2 max-w-[90%] ${
-                              message.user === username ? 'bg-blue-600 text-white' : 'bg-gray-600 text-white'
-                          }`}
+                        className={`rounded-lg px-3 py-2 max-w-[90%] ${
+                          message.user === username ? 'bg-blue-600 text-white' : 'bg-gray-600 text-white'
+                        }`}
                       >
                         <div className="text-xs font-bold">{message.user}</div>
                         <div className="text-sm">{message.text}</div>
                       </div>
                     </div>
-                ))}
-              </div>
-              <div className="mt-4">
-                {isLoggedIn ? (
-                    <form onSubmit={handleSendMessage} className="flex flex-col gap-2">
-                      <input
-                          type="text"
-                          value={newMessage}
-                          onChange={(e) => setNewMessage(e.target.value)}
-                          placeholder="Type a message..."
-                          className="w-full bg-gray-600 text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-                      <button
-                          type="submit"
-                          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition-colors"
-                      >
-                        Send
-                      </button>
-                    </form>
+                  ))
                 ) : (
-                    <div className="text-center p-3 bg-gray-600 rounded">
-                      <p className="text-gray-300 text-sm mb-2">Want to chat? Please log in.</p>
-                      <button
-                          onClick={() => setShowAuth(true)}
-                          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
-                      >
-                        Log In
-                      </button>
-                    </div>
+                  <div className="text-center p-3 bg-gray-600 rounded">
+                    <p className="text-gray-300 text-sm mb-2">Please log in to access the chat.</p>
+                  </div>
                 )}
               </div>
+              {isLoggedIn && (
+                <form onSubmit={handleSendMessage} className="flex flex-col gap-2 mt-4">
+                  <input
+                    type="text"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    placeholder="Type a message..."
+                    className="w-full bg-gray-600 text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition-colors"
+                  >
+                    Send
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>
