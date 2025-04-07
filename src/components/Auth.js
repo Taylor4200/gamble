@@ -11,7 +11,35 @@ const Auth = ({ onLogin, onClose }) => {
     });
     const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
+    // Mock user data - In production, this would come from your backend
+    const mockUserData = {
+        username: 'CryptoKing',
+        email: 'crypto@example.com',
+        rank: 'Gold',
+        wagered: 150000,
+        balance: {
+            BTC: 0.05,
+            ETH: 1.5,
+            USDT: 5000,
+            BNB: 10,
+            SOL: 50,
+            DOGE: 10000
+        },
+        stats: {
+            totalWagered: 150000,
+            totalWon: 165000,
+            totalLost: 135000,
+            gamesPlayed: 1250
+        },
+        rankProgress: {
+            current: 'Gold',
+            next: 'Platinum',
+            progress: 75,
+            nextRequirement: 200000
+        }
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
@@ -32,8 +60,38 @@ const Auth = ({ onLogin, onClose }) => {
             // Here you would typically make an API call to register the user
         }
 
-        // Mock successful login/signup
-        onLogin(formData.username);
+        try {
+            // Mock API call - In production, this would be a real API call
+            const response = await mockLoginCall(formData);
+            if (response.success) {
+                // Pass the full user data to the parent component
+                onLogin(response.userData);
+            } else {
+                setError(response.error);
+            }
+        } catch (err) {
+            setError('An error occurred during authentication');
+        }
+    };
+
+    // Mock API call function
+    const mockLoginCall = async (data) => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                // Simulate successful login
+                if (data.username && data.password) {
+                    resolve({
+                        success: true,
+                        userData: mockUserData
+                    });
+                } else {
+                    resolve({
+                        success: false,
+                        error: 'Invalid credentials'
+                    });
+                }
+            }, 500);
+        });
     };
 
     return (
@@ -47,7 +105,7 @@ const Auth = ({ onLogin, onClose }) => {
                 </button>
 
                 <h2 className="text-2xl font-bold text-white mb-6 text-center">
-                    {isLogin ? 'Login' : 'Sign Up'} to GambleMaster
+                    {isLogin ? 'Login' : 'Sign Up'} to Bitch Bot
                 </h2>
 
                 {error && (

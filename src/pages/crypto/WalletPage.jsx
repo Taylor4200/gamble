@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 
 const WalletPage = () => {
     const [activeTab, setActiveTab] = useState('balance'); // 'balance', 'history', 'addresses'
-
-    const balances = [
-        { coin: 'BTC', amount: '0.05432', value: '2,345.67' },
-        { coin: 'ETH', amount: '1.2345', value: '3,456.78' },
-        { coin: 'USDT', amount: '500.00', value: '500.00' },
-        { coin: 'DOGE', amount: '1000.00', value: '89.45' }
-    ];
+    const { user } = useAuth();
 
     const transactions = [
         {
@@ -43,7 +38,7 @@ const WalletPage = () => {
     ];
 
     return (
-        <div className="p-8">
+        <div className="p-6 max-w-7xl mx-auto">
             <h2 className="text-2xl font-bold text-white mb-6">Crypto Wallet</h2>
 
             <div className="flex gap-4 mb-6">
@@ -63,27 +58,55 @@ const WalletPage = () => {
             </div>
 
             {activeTab === 'balance' && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {balances.map(balance => (
-                        <div key={balance.coin} className="bg-gray-800 rounded-lg p-6">
-                            <div className="flex justify-between items-center mb-4">
-                                <span className="text-lg font-semibold text-white">{balance.coin}</span>
-                                <span className="text-sm text-gray-400">Available</span>
+                <div className="space-y-6">
+                    {/* Total Balance Card */}
+                    <div className="bg-gray-800 rounded-lg p-6">
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div className="text-center">
+                                <h3 className="text-gray-400 text-sm">Total Balance</h3>
+                                <p className="text-2xl font-bold text-green-400">
+                                    ${Object.values(user.balance).reduce((acc, curr) => acc + parseFloat(curr), 0).toLocaleString()}
+                                </p>
                             </div>
-                            <div className="space-y-2">
-                                <div className="text-2xl font-bold text-white">{balance.amount}</div>
-                                <div className="text-gray-400">${balance.value} USD</div>
+                            <div className="text-center">
+                                <h3 className="text-gray-400 text-sm">Rank</h3>
+                                <p className="text-2xl font-bold text-yellow-400">{user.role}</p>
                             </div>
-                            <div className="flex gap-2 mt-4">
-                                <button className="flex-1 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-                                    Deposit
-                                </button>
-                                <button className="flex-1 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                                    Withdraw
-                                </button>
+                            <div className="text-center">
+                                <h3 className="text-gray-400 text-sm">Total Wagered</h3>
+                                <p className="text-2xl font-bold text-blue-400">$0.00</p>
+                            </div>
+                            <div className="text-center">
+                                <h3 className="text-gray-400 text-sm">Next Rank Progress</h3>
+                                <div className="w-full bg-gray-700 rounded-full h-4 mt-2">
+                                    <div 
+                                        className="bg-blue-600 h-4 rounded-full" 
+                                        style={{ width: '0%' }}
+                                    ></div>
+                                </div>
                             </div>
                         </div>
-                    ))}
+                    </div>
+
+                    {/* Crypto Balances */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {Object.entries(user.balance).map(([symbol, balance]) => (
+                            <div key={symbol} className="bg-gray-800 rounded-lg p-6">
+                                <div className="flex items-center justify-between mb-4">
+                                    <div className="flex items-center">
+                                        <span className="text-2xl mr-2">
+                                            {symbol === 'btc' ? '₿' : symbol === 'eth' ? 'Ξ' : '₮'}
+                                        </span>
+                                        <span className="text-lg font-medium">{symbol.toUpperCase()}</span>
+                                    </div>
+                                </div>
+                                <div className="text-2xl font-bold mb-2">{balance}</div>
+                                <div className="text-gray-400 text-sm">
+                                    ≈ ${(parseFloat(balance)).toLocaleString()}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             )}
 
@@ -130,21 +153,22 @@ const WalletPage = () => {
                 <div className="space-y-4">
                     {addresses.map(addr => (
                         <div key={addr.coin} className="bg-gray-800 rounded-lg p-6">
-                            <div className="flex justify-between items-start mb-4">
-                                <div>
-                                    <h3 className="text-lg font-semibold text-white mb-1">{addr.coin}</h3>
-                                    <p className="text-sm text-gray-400">{addr.network} Network</p>
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center">
+                                    <span className="text-2xl mr-2">
+                                        {addr.coin === 'BTC' ? '₿' : addr.coin === 'ETH' ? 'Ξ' : '₮'}
+                                    </span>
+                                    <span className="text-lg font-medium">{addr.coin}</span>
                                 </div>
-                                <button className="text-blue-400 hover:text-blue-300">
+                                <span className="text-sm text-gray-400">{addr.network}</span>
+                            </div>
+                            <div className="flex items-center justify-between bg-gray-700 p-3 rounded">
+                                <code className="text-sm text-gray-300">{addr.address}</code>
+                                <button
+                                    onClick={() => navigator.clipboard.writeText(addr.address)}
+                                    className="ml-4 px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+                                >
                                     Copy
-                                </button>
-                            </div>
-                            <div className="bg-gray-700 p-3 rounded break-all text-sm text-gray-300">
-                                {addr.address}
-                            </div>
-                            <div className="mt-4 flex justify-end">
-                                <button className="text-sm text-gray-400 hover:text-gray-300">
-                                    View on Explorer →
                                 </button>
                             </div>
                         </div>
